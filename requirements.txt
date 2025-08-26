@@ -1,4 +1,11 @@
-fastapi
+fastapi~=0.116.1
 uvicorn[standard]
-sqlalchemy
+sqlalchemy>=2.0
 psycopg2-binary
+passlib~=1.7.4
+pydantic[email]~=2.11.7
+python-jose~=3.5.0
+python-multipart
+sqlmodel
+pydantic-settings
+alembic
