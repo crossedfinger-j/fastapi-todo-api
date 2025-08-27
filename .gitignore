@@ -59,6 +59,7 @@ venv.bak/
 
 # PyCharm files
 .idea/
+.run/
 
 # SQLite
 *.db
