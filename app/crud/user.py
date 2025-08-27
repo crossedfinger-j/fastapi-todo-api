@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from app.core.security import get_password_hash
+from app.core.security import get_password_hash, verify_password
 from pydantic import EmailStr
 from app.models.user import User, UserCreate
 
@@ -20,3 +20,11 @@ def create_user(db: Session, user_in: UserCreate) -> User:
     db.commit()
     db.refresh(db_obj)
     return db_obj
+
+def authenticate(*, db: Session, username: str, password: str) -> User | None:
+    db_user = get_user_by_username(db, username=username)
+    if not db_user:
+        return None
+    if not verify_password(password, db_user.password):
+        return None
+    return db_user

@@ -1,4 +1,3 @@
-import uvicorn
 from fastapi import FastAPI
 
 from app.api.routers import api_router
@@ -10,7 +9,3 @@ app = FastAPI(
 )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
-
-@app.get("/")
-def root():
-    return {"message": "API Server is running"}
