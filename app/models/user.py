@@ -2,10 +2,11 @@
 # model + schema
 import uuid
 from pydantic import EmailStr
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
 from datetime import datetime
 from sqlalchemy import Column, DateTime
 from sqlalchemy.sql import func
+from typing import List
 
 
 class UserBase(SQLModel):
@@ -27,4 +28,4 @@ class User(UserBase, table=True):
     created_at: datetime | None = Field(
         default=None, sa_column=Column(DateTime(timezone=True), server_default=func.now())
     )
-
+    categories: List["Category"] = Relationship(back_populates="owner")

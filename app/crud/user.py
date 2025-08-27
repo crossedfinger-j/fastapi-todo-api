@@ -1,3 +1,5 @@
+import uuid
+
 from sqlmodel import Session, select
 from app.core.security import get_password_hash, verify_password
 from pydantic import EmailStr
@@ -6,6 +8,11 @@ from app.models.user import User, UserCreate
 
 def get_user_by_username(db: Session, username: str | EmailStr) -> User | None:
     statement = select(User).where(User.username == str(username))
+    user = db.exec(statement).first()
+    return user
+
+def get_user_by_id(db: Session, user_id: uuid.UUID) -> User | None:
+    statement = select(User).where(User.id == user_id)
     user = db.exec(statement).first()
     return user
 

@@ -1,4 +1,6 @@
 # app/crud/category.py
+import uuid
+
 from sqlmodel import Session, select
 from app.models.category import Category, CategoryCreate
 from app.models.user import User
@@ -16,4 +18,7 @@ def create_category(db: Session, category_id: CategoryCreate, user: User) -> Cat
     db.commit()
     db.refresh(db_category)
     return db_category
+
+def get_category_by_id(db: Session, category_id: uuid.UUID) -> Category | None:
+    return db.get(Category, category_id)
 

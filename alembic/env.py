@@ -4,7 +4,7 @@ from alembic import context
 from sqlmodel import SQLModel
 
 from app.db.session import engine
-from app.models import user
+from app import models
 
 config = context.config
 

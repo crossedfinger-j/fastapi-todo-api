@@ -12,6 +12,9 @@ class CategoryPublic(CategoryBase):
     id: uuid.UUID
     user_id: uuid.UUID
 
+class CategoryUpdate(SQLModel):
+    name: str | None = None
+
 class Category(CategoryBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     user_id: uuid.UUID = Field(foreign_key="user.id")

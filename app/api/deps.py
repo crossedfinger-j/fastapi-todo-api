@@ -6,12 +6,12 @@ from app.core import security
 from app.db.session import engine
 from app.models.user import User
 from app.core.config import settings
-from app.crud.user import get_user_by_username
+from app.crud.user import get_user_by_id
 from pydantic import ValidationError
-
+import uuid
 from app.models.token import TokenPayload
 
-reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/api/login")
+reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/user/access-token")
 
 def get_db():
     with Session(engine) as session:
@@ -30,7 +30,7 @@ def get_current_user(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Could not validate credentials",
         )
-    user = get_user_by_username(db, username=token_data.sub)
+    user = get_user_by_id(db, user_id=uuid.UUID(token_data.sub))
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
