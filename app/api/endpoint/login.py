@@ -1,3 +1,4 @@
+from datetime import timedelta
 from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
@@ -7,7 +8,8 @@ from app.api import deps
 from app.core import security
 from app.crud import user as crud_user
 from app.models.user import User as UserModel, UserCreate, UserPublic
-from app.schemas.token import Token
+from app.models.token import Token
+from app.core.config import settings
 
 router = APIRouter()
 
@@ -38,10 +40,12 @@ def login(
             detail="아이디 또는 비밀번호가 올바르지 않습니다.",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = security.create_access_token(
-        data={"sub": user.username}
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    return Token(
+        access_token=security.create_access_token(
+            user.id, expires_delta=access_token_expires
+        )
     )
-    return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/me", response_model=UserPublic)
 def read_user_me(

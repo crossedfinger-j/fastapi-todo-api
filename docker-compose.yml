@@ -1,18 +1,18 @@
 services:
-  web:
-    build: .
-    container_name: fastapi_web
-    volumes:
-      - .:/code
-    working_dir: /code
-    ports:
-      - "8000:8000"
-    environment:
-      # Use variables to build the database URL
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-    depends_on:
-      db:
-        condition: service_healthy
+#  web:
+#    build: .
+#    container_name: fastapi_web
+#    volumes:
+#      - .:/code
+#    working_dir: /code
+#    ports:
+#      - "8000:8000"
+#    environment:
+#      # Use variables to build the database URL
+#      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+#    depends_on:
+#      db:
+#        condition: service_healthy
 
   db:
     image: postgres:latest

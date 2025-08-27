@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI
 
 from app.api.routers import api_router
@@ -8,7 +9,7 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
 )
 
-app.include_router(api_router, prefix=settings.API_V1_STR) # ◀◀◀ config.py에서 API 경로 가져오기
+app.include_router(api_router, prefix=settings.API_V1_STR)
 
 @app.get("/")
 def root():

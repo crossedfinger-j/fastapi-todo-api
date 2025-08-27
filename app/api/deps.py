@@ -9,7 +9,7 @@ from app.core.config import settings
 from app.crud.user import get_user_by_username
 from pydantic import ValidationError
 
-from app.schemas.token import TokenPayload
+from app.models.token import TokenPayload
 
 reusable_oauth2 = OAuth2PasswordBearer(tokenUrl="/api/login")
 
