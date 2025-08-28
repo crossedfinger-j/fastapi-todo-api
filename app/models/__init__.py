@@ -2,3 +2,4 @@
 from .user import User
 from .category import Category
 from .priority import Priority
+from .todos import Todo

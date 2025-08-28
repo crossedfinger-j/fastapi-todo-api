@@ -1,5 +1,4 @@
 # app/api/endpoint/category.py
-# app/api/endpoint/category.py
 import uuid
 from typing import Any
 from fastapi import APIRouter, Depends, HTTPException
@@ -43,12 +42,10 @@ def update_category(
     if db_category.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not enough permissions")
 
-    update_data = category_in.model_dump(exclude_unset=True)
-    db_category.sqlmodel_update(update_data)
-    db.add(db_category)
-    db.commit()
-    db.refresh(db_category)
-    return db_category
+    updated_category = crud_category.update_category(
+        session=db, db_category=db_category, category_in=category_in
+    )
+    return updated_category
 
 @router.delete('/categories/{category_id}', response_model=Message)
 def delete_category(
@@ -63,8 +60,7 @@ def delete_category(
     if db_category.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not enough permissions")
 
-    db.delete(db_category)
-    db.commit()
+    crud_category.delete_category(db, db_category)
     return Message(
         message="success",
     )

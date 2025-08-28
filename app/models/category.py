@@ -1,5 +1,7 @@
 # app/models/category.py
 import uuid
+from typing import TYPE_CHECKING, List
+
 from sqlmodel import SQLModel, Field, Relationship
 
 class CategoryBase(SQLModel):
@@ -15,8 +17,13 @@ class CategoryPublic(CategoryBase):
 class CategoryUpdate(SQLModel):
     name: str | None = None
 
+if TYPE_CHECKING:
+    from .user import User
+    from .todos import Todo
+
 class Category(CategoryBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     user_id: uuid.UUID = Field(foreign_key="user.id")
 
     owner: "User" = Relationship(back_populates="categories")
+    todos: List["Todo"] = Relationship(back_populates="category")

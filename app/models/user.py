@@ -1,5 +1,4 @@
 # app/models/user.py
-# model + schema
 import uuid
 from pydantic import EmailStr
 from sqlmodel import SQLModel, Field, Relationship
@@ -29,3 +28,4 @@ class User(UserBase, table=True):
         default=None, sa_column=Column(DateTime(timezone=True), server_default=func.now())
     )
     categories: List["Category"] = Relationship(back_populates="owner")
+    todos: List["Todo"] = Relationship(back_populates="owner")

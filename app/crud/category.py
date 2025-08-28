@@ -2,7 +2,7 @@
 import uuid
 
 from sqlmodel import Session, select
-from app.models.category import Category, CategoryCreate
+from app.models.category import Category, CategoryCreate, CategoryUpdate
 from app.models.user import User
 
 
@@ -22,3 +22,20 @@ def create_category(db: Session, category_id: CategoryCreate, user: User) -> Cat
 def get_category_by_id(db: Session, category_id: uuid.UUID) -> Category | None:
     return db.get(Category, category_id)
 
+def update_category(
+        *,
+        session: Session,
+        db_category: Category,
+        category_in: CategoryUpdate
+) -> Category:
+    update_data = category_in.model_dump(exclude_unset=True)
+    db_category.sqlmodel_update(update_data)
+    session.add(db_category)
+    session.commit()
+    session.refresh(db_category)
+    return db_category
+
+def delete_category(db: Session, db_category: Category) -> None:
+    db.delete(db_category)
+    db.commit()
+    return
