@@ -8,7 +8,7 @@ from app.crud import todos as crud_todo
 from app.crud import category as crud_category
 from app.crud import priority as crud_priority
 from app.models.message import Message
-from app.models.todos import Todo, TodoCreate, TodoPublic, TodoUpdate
+from app.models.todos import TodoCreate, TodoPublic, TodoUpdate
 from app.models.user import User
 
 router = APIRouter()

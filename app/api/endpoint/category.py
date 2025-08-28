@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 from app.api import deps
 from app.crud import category as crud_category
-from app.models.category import Category, CategoryCreate, CategoryPublic, CategoryUpdate
+from app.models.category import CategoryCreate, CategoryPublic, CategoryUpdate
 from app.models.message import Message
 from app.models.user import User
 

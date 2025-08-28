@@ -7,12 +7,12 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "To-do List API"
     API_V1_STR: str = "/api/v1"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
-    SECRET_KEY: str
+    SECRET_KEY: str = None
 
-    POSTGRES_SERVER: str
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
+    POSTGRES_SERVER: str = None
+    POSTGRES_USER: str = None
+    POSTGRES_PASSWORD: str = None
+    POSTGRES_DB: str = None
 
     # DATABASE_URL: PostgresDsn | None = None
 
@@ -20,7 +20,7 @@ class Settings(BaseSettings):
 
     @computed_field
     @property
-    def DATABASE_URL(self) -> PostgresDsn:
+    def database_url(self) -> PostgresDsn:
         url = PostgresDsn.build(
             scheme="postgresql",
             username=self.POSTGRES_USER,
