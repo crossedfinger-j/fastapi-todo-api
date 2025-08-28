@@ -35,26 +35,16 @@ def get_todos_by_user(
     return todos
 
 
-def create_todo(
-        *,
-        session: Session,
-        todo_in: TodoCreate,
-        owner: User
-) -> Todo:
+def create_todo( *, session: Session, todo_in: TodoCreate, owner: User) -> Todo:
     db_obj = Todo.model_validate(todo_in, update={"user_id": owner.id})
     session.add(db_obj)
     session.commit()
     session.refresh(db_obj)
     return db_obj
 
-def update_todo(
-        *,
-        session: Session,
-        db_todo: Todo,
-        todo_in: TodoUpdate
-) -> Todo:
-    update_todo = todo_in.model_dump(exclude_unset=True)
-    db_todo.sqlmodel_update(update_todo)
+def update_todo( *, session: Session, db_todo: Todo, todo_in: TodoUpdate) -> Todo:
+    item_to_update = todo_in.model_dump(exclude_unset=True)
+    db_todo.sqlmodel_update(item_to_update)
     session.add(db_todo)
     session.commit()
     session.refresh(db_todo)

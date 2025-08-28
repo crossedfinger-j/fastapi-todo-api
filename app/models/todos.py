@@ -18,7 +18,8 @@ class TodoBase(SQLModel):
     priority_id: Optional[int] = Field(default=None, foreign_key="priority.id")
 
 class TodoCreate(TodoBase):
-    pass
+    category_id: uuid.UUID
+    priority_id: int
 
 class TodoUpdate(SQLModel):
     content: Optional[str] = None
@@ -37,8 +38,8 @@ class TodoPublic(TodoBase):
 
 class Todo(TodoBase, table=True):
     __tablename__ = "todos"
-    id: uuid.UUID = Field(primary_key=True, default=uuid.uuid4)
-    user_id: uuid.UUID = Field(default=None, foreign_key="user.id")
+    id: uuid.UUID = Field(primary_key=True, default_factory=uuid.uuid4)
+    user_id: uuid.UUID = Field(foreign_key="user.id", nullable=False)
 
     created_at: Optional[datetime] = Field(
         default=None, sa_column=Column(DateTime(timezone=True), server_default=func.now())
