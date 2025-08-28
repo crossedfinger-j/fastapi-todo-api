@@ -1,5 +1,5 @@
+# app/crud/priority.py
 from sqlmodel import Session
-
 from app.models import Priority
 
 
